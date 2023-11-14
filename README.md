@@ -4,38 +4,40 @@ Godabot is a CLI app for the Telegram bot.
 
 [Original bot URL](https://t.me/alinkedd_godabot)
 
-## Bundle
+## Prerequisites
 
-### Build
+- Go (>=1.21.4)
 
-Set version and build app:
+## Setup
+
+### Install
+
+Set version and install app:
 
 ```sh
-go build -ldflags "-X="github.com/alinkedd/godabot/cmd.appVersion=<version>
+go install -ldflags "-X="github.com/alinkedd/godabot/cmd.appVersion=<version> github.com/alinkedd/godabot
 ```
-
-`godabot` bin file will be located in the root of the workspace.
 
 ### Env
 
 Telegram access token `TELE_TOKEN` should be set as an environment variable ([example](HISTORY.md#step-3)).
 
-## Commands index
+## Command index
 
 ### [Help](./cmd/root.go)
 
 Print main info about an app and available commands:
 
 ```sh
-./godabot
+godabot
 # or
-./godabot help
+godabot help
 ```
 
 Print info about specific command:
 
 ```sh
-./godabot help <command>
+godabot help <command>
 ```
 
 ### [Version](./cmd/version.go)
@@ -43,7 +45,7 @@ Print info about specific command:
 Print build version of the bot:
 
 ```sh
-./godabot version
+godabot version
 ```
 
 ### [Start](./cmd/godabot.go)
@@ -51,7 +53,5 @@ Print build version of the bot:
 Start bot and listen to updates:
 
 ```sh
-./godabot start
-# or
-./godabot godabot
+godabot start
 ```
