@@ -137,3 +137,21 @@ Start bot:
 ```sh
 ./godabot start
 ```
+
+## Step 4
+
+### `Makefile`
+
+Add `Makefile` with default commands for development and building: for
+installing dependencies, cleaning, linting, formatting, etc.
+
+Also add some commands to manipulate docker containers.
+
+### `Dockerfile`
+
+Add `Dockerfile` to build and run the executable of this repository in a
+container.
+
+Use `make image` to create corresponding image locally.
+
+Use `make push` to push created image to registry.
