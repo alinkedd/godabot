@@ -140,6 +140,11 @@ Start bot:
 
 ## Step 4
 
+`Makefile` and `Dockerfile` depend on the operating system and architecture,
+corresponding to GOOS and GOARCH as [provided here](https://go.dev/doc/install/source#environment).
+If not specified, `linux` for the operating system and `amd64` for the
+architecture are used as defaults.
+
 ### `Makefile`
 
 Add `Makefile` with default commands for development and building: for

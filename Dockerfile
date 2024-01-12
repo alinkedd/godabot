@@ -1,8 +1,13 @@
+ARG TARGET_OS=linux
+ARG TARGET_ARCH=amd64
+
 # Copy current repository and create an executable using golang image
-FROM golang:1.21 as builder
+FROM quay.io/projectquay/golang:1.21 as builder
 WORKDIR /go/src/app
 COPY . .
-RUN make build
+ARG TARGET_OS
+ARG TARGET_ARCH
+RUN make build TARGET_OS=$TARGET_OS TARGET_ARCH=$TARGET_ARCH
 
 # Copy ssl certificates and copy and run the executable using scratch image
 FROM scratch
