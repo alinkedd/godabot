@@ -44,7 +44,10 @@ amd64 arm64 arm:
 push:
 	docker push ${IMAGE_NAME}
 
-# TODO: remove only images of the current version
+# removes images of the current version of repository for all OS/architecture
 clean:
 	rm -rf godabot
-	docker rmi -f $$(docker images ${NAMESPACE}/${APP} -q)
+	docker rmi -f $$(docker images --filter=reference='${NAMESPACE}/${APP}:${VERSION}-*' -q) \
+	2>/dev/null || true
+# if no image is found, `2>/dev/null` will suppress warning about having at least
+# 1 argument and `|| true` will suppress `make`'s error
