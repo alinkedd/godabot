@@ -160,3 +160,24 @@ container.
 Use `make image` to create corresponding image locally.
 
 Use `make push` to push created image to registry.
+
+#### Use GCR instead of Docker Hub
+
+- [Install gcloud CLI](https://cloud.google.com/sdk/docs/install)
+- Create project `godabot`
+- [Add local configuration](https://cloud.google.com/sdk/docs/configurations)
+  and set an account and current project:
+```sh
+gcloud config configurations create godabot
+gcloud config set account alina.listunova@gmail.com
+gcloud config set project godabot
+```
+- Enable [Artifact Registry API](https://console.cloud.google.com/artifacts?project=godabot)
+  for the project
+- Create there a docker registry repository for the main app, e.g.
+  `godabot-dev-gcr`, and set location/region, e.g. `europe-central2`
+- Configure docker to use gcloud for specific URL
+```sh
+gcloud auth configure-docker europe-central2-docker.pkg.dev
+```
+- Update Makefile to use GCR registry in the image name

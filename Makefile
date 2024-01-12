@@ -3,12 +3,13 @@
 
 .PHONY: install dev-deps format lint test push clean
 
-APP        :=$(shell basename -s .git $(shell git remote get-url origin))
-NAMESPACE  :=alinkedd
-VERSION    :=$(shell git describe --abbrev=0 --tags)-$(shell git rev-parse --short HEAD)
-TARGET_OS  ?=$(shell uname 2>/dev/null | tr A-Z a-z || echo "linux")
-TARGET_ARCH?=$(shell dpkg --print-architecture 2>/dev/null || echo "amd64")
-IMAGE_NAME  =${NAMESPACE}/${APP}:${VERSION}-${TARGET_OS}-${TARGET_ARCH}
+APP             :=$(shell basename -s .git $(shell git remote get-url origin))
+REGISTRY        :=europe-central2-docker.pkg.dev/godabot/godabot-dev-gcr
+VERSION         :=$(shell git describe --abbrev=0 --tags)-$(shell git rev-parse --short HEAD)
+TARGET_OS       ?=$(shell uname 2>/dev/null | tr A-Z a-z || echo "linux")
+TARGET_ARCH     ?=$(shell dpkg --print-architecture 2>/dev/null || echo "amd64")
+IMAGE_NAME_SHORT =${REGISTRY}/${APP}:${VERSION}
+IMAGE_NAME       =${IMAGE_NAME_SHORT}-${TARGET_OS}-${TARGET_ARCH}
 
 install:
 	go get
@@ -40,14 +41,13 @@ amd64 arm64 arm:
 	$(MAKE) build TARGET_OS=${TARGET_OS} TARGET_ARCH=$@
 	$(MAKE) image TARGET_OS=${TARGET_OS} TARGET_ARCH=$@
 
-# TODO: change to GCR
 push:
 	docker push ${IMAGE_NAME}
 
 # removes images of the current version of repository for all OS/architecture
 clean:
 	rm -rf godabot
-	docker rmi -f $$(docker images --filter=reference='${NAMESPACE}/${APP}:${VERSION}-*' -q) \
+	docker rmi -f $$(docker images --filter=reference='${IMAGE_NAME_SHORT}-*' -q) \
 	2>/dev/null || true
 # if no image is found, `2>/dev/null` will suppress warning about having at least
 # 1 argument and `|| true` will suppress `make`'s error
