@@ -1,5 +1,6 @@
 # NOTE: 1: this repo must have .git and at least one commit and one tag
 # NOTE: 2: a few of these commands are compatible only with *nix systems
+# NOTE: 3: docker and dive should be preinstalled
 
 .PHONY: install dev-deps format lint test push clean
 
@@ -17,6 +18,9 @@ install:
 # TODO: manage dev dependencies in a more advance way
 dev-deps:
 	go install honnef.co/go/tools/cmd/staticcheck@latest
+# TODO: uncomment after https://github.com/wagoodman/dive/issues/355 
+# go install github.com/wagoodman/dive@latest
+# Cause: https://github.com/golang/go/issues/44840
 
 format:
 	gofmt -s -w ./
@@ -39,7 +43,10 @@ linux darwin windows:
 
 amd64 arm64 arm:
 	$(MAKE) build TARGET_OS=${TARGET_OS} TARGET_ARCH=$@
-	$(MAKE) image TARGET_OS=${TARGET_OS} TARGET_ARCH=$@
+	$(MAKE) image TARGET_OS=${TARGET_OS} TARGET_ARCH=$
+
+analyze:
+	dive --ci --lowestEfficiency=0.9 ${IMAGE_NAME}
 
 push:
 	docker push ${IMAGE_NAME}
