@@ -51,6 +51,9 @@ analyze:
 push:
 	docker push ${IMAGE_NAME}
 
+pull:
+	docker pull ${IMAGE_NAME}
+
 # removes images of the current version of repository for all OS/architecture
 clean:
 	rm -rf godabot
