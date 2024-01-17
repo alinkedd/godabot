@@ -43,7 +43,7 @@ linux darwin windows:
 
 amd64 arm64 arm:
 	$(MAKE) build TARGET_OS=${TARGET_OS} TARGET_ARCH=$@
-	$(MAKE) image TARGET_OS=${TARGET_OS} TARGET_ARCH=$
+	$(MAKE) image TARGET_OS=${TARGET_OS} TARGET_ARCH=$@
 
 analyze:
 	dive --ci --lowestEfficiency=0.9 ${IMAGE_NAME}
