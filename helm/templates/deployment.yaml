@@ -38,15 +38,3 @@ spec:
                 secretKeyRef:
                   name: {{ .Values.secret.name }}
                   key: {{ .Values.secret.key }}
-          ports:
-            - name: http
-              containerPort: 80
-              protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: /
-              port: http
-          readinessProbe:
-            httpGet:
-              path: /
-              port: http
