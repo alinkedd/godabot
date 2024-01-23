@@ -181,3 +181,37 @@ gcloud config set project godabot
 gcloud auth configure-docker europe-central2-docker.pkg.dev
 ```
 - Update Makefile to use GCR registry in the image name
+
+## Step 5
+
+Generate `helm` Chart:
+
+```sh
+helm create godabot
+```
+
+Remove unused parts and lint:
+
+```sh
+helm lint ./helm/
+```
+
+Update image name, provide `TELE_TOKEN` env to set later like this:
+
+```sh
+kubectl create secret generic secret-env --from-literal=tele-token='<tele-token>'
+```
+
+Create packaged chart:
+
+```sh
+helm package ./helm/
+```
+
+Create GitHub release and upload chart.
+
+Test release:
+
+```sh
+helm install godabot <chart_release>
+```
