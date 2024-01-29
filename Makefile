@@ -5,7 +5,9 @@
 .PHONY: install dev-deps format lint test push clean
 
 APP             :=$(shell basename -s .git $(shell git remote get-url origin))
-REGISTRY        :=europe-central2-docker.pkg.dev/godabot/godabot-dev-gcr
+# Uncomment in case of GCR
+# REGISTRY        :=europe-central2-docker.pkg.dev/godabot/godabot-dev-gcr
+REGISTRY        :=alinkedd
 VERSION         :=$(shell git describe --abbrev=0 --tags)-$(shell git rev-parse --short HEAD)
 TARGET_OS       ?=$(shell uname 2>/dev/null | tr A-Z a-z || echo "linux")
 TARGET_ARCH     ?=$(shell dpkg --print-architecture 2>/dev/null || echo "amd64")
